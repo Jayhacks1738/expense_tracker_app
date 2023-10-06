@@ -3,6 +3,8 @@ import 'package:expense_tracker_app/components/expense_tile.dart';
 import 'package:expense_tracker_app/controller/nav.dart';
 import 'package:expense_tracker_app/data/expense_data.dart';
 import 'package:expense_tracker_app/models/expense_item.dart';
+import 'package:expense_tracker_app/views/settings_screen.dart';
+import 'package:expense_tracker_app/views/statistics_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +16,19 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int _currentIndex = 0;
+  final List<Widget> _screens = [
+    const HomeScreen(),
+    const StatsScreen(),
+    const SettingsScreen(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
   final newExpenseNameController = TextEditingController();
   final newExpenseKwachaController = TextEditingController();
   final newExpenseNgweController = TextEditingController();
@@ -102,13 +117,24 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           title: const Text('Home'),
         ),
-        bottomNavigationBar: NavigationBar(destinations: const [
-          NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-          NavigationDestination(
-              icon: Icon(Icons.stacked_bar_chart), label: 'Statistics'),
-          NavigationDestination(icon: Icon(Icons.settings), label: 'Settings')
-        ]),
-        backgroundColor: Colors.white,
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _currentIndex,
+          onTap: _onItemTapped,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.bar_chart),
+              label: 'Statistics',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: 'Settings',
+            ),
+          ],
+        ),
         floatingActionButton: FloatingActionButton(
           onPressed: addNewExpense,
           backgroundColor: Colors.grey,
@@ -116,8 +142,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         body: ListView(
           children: [
-            ExpenseSummary(startOfWeek: value.startOfWeekDate()),
-            const SizedBox(height: 15),
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -129,6 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 deleteTapped: (BuildContext) {},
               ),
             ),
+            _screens[_currentIndex],
           ],
         ),
       ),

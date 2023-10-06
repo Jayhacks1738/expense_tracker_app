@@ -13,6 +13,7 @@ class MyBarGraph extends StatelessWidget {
   final double satAmount;
 
   MyBarGraph({
+    super.key,
     required this.maxY,
     required this.sunAmount,
     required this.monAmount,
@@ -36,80 +37,67 @@ class MyBarGraph extends StatelessWidget {
     );
     myBarData.initializeBarData();
 
-    return BarChart(BarChartData(
-      maxY: maxY,
-      minY: 0,
-      titlesData: const FlTitlesData(
-        show: true,
-        topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        bottomTitles: AxisTitles(
-          sideTitles:
-              SideTitles(showTitles: true, getTitlesWidget: getBottomTiles),
-        ),
-      ),
-      gridData: const FlGridData(show: false),
-      borderData: FlBorderData(show: false),
-      barGroups: myBarData.barData
-          .map(
-            (data) => BarChartGroupData(
-              x: data.x,
-              barRods: [
-                BarChartRodData(
+    return BarChart(
+      BarChartData(
+        maxY: maxY,
+        minY: 0,
+        gridData: const FlGridData(show: true),
+        borderData: FlBorderData(show: true),
+        barGroups: myBarData.barData
+            .map(
+              (data) => BarChartGroupData(
+                x: data.x,
+                barRods: [
+                  BarChartRodData(
                     toY: data.y,
                     color: Colors.blue,
-                    width: 22,
                     borderRadius: BorderRadius.circular(5),
-                    backDrawRodData: BackgroundBarChartRodData(
-                      show: true,
-                      toY: maxY,
-                      color: Colors.grey,
-                    )),
-              ],
-            ),
-          )
-          .toList(),
-    ));
+                  )
+                ],
+              ),
+            )
+            .toList(),
+      ),
+    );
   }
-}
 
-Widget getBottomTiles(double value, TitleMeta meta) {
-  const style = TextStyle(
-    color: Colors.grey,
-    fontWeight: FontWeight.normal,
-    fontSize: 12,
-  );
+  Widget getBottomTiles(double value, TitleMeta meta) {
+    const style = TextStyle(
+      color: Colors.grey,
+      fontWeight: FontWeight.normal,
+      fontSize: 12,
+    );
 
-  Widget text;
-  switch (value.toInt()) {
-    case 0:
-      text = const Text('S', style: style);
-      break;
-    case 1:
-      text = const Text('M', style: style);
-      break;
-    case 2:
-      text = const Text('T', style: style);
-      break;
-    case 3:
-      text = const Text('W', style: style);
-      break;
-    case 4:
-      text = const Text('T', style: style);
-      break;
-    case 5:
-      text = const Text('F', style: style);
-      break;
-    case 6:
-      text = const Text('S', style: style);
-      break;
-    default:
-      text = const Text('', style: style);
-      break;
+    Widget text;
+    switch (value.toInt()) {
+      case 0:
+        text = const Text('S', style: style);
+        break;
+      case 1:
+        text = const Text('M', style: style);
+        break;
+      case 2:
+        text = const Text('T', style: style);
+        break;
+      case 3:
+        text = const Text('W', style: style);
+        break;
+      case 4:
+        text = const Text('T', style: style);
+        break;
+      case 5:
+        text = const Text('F', style: style);
+        break;
+      case 6:
+        text = const Text('S', style: style);
+        break;
+      default:
+        text = const Text('', style: style);
+        break;
+    }
+    return SideTitleWidget(
+      child: text,
+      axisSide: meta.axisSide,
+    );
   }
-  return SideTitleWidget(
-    child: text,
-    axisSide: meta.axisSide,
-  );
 }

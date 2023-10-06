@@ -41,12 +41,11 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   flutter_slidable: ^1.2.0
-  loud_firestore: ^4.9.1
-  firebase_auth: ^4.9.0
-  firebase_core: ^2.15.1
+  firebase: ^9.0.3 
+  firebase_core: ^2.17.0
+  firebase_auth: ^4.10.1
   google_sign_in: ^6.1.5
-  path: ^1.8.3
-  geolocator: ^10.1.0
+  cloud_firestore: ^4.9.3
 
 
 dev_dependencies:
