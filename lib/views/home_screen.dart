@@ -153,7 +153,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 deleteTapped: (BuildContext) {},
               ),
             ),
-            _screens[_currentIndex],
           ],
         ),
       ),
